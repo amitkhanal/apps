@@ -1,4 +1,4 @@
-./docker/oracle/Disk1
-./docker/weblogic/wls1213_dev_update3.zip
-./docker/weblogic/jdk-7u80-linux-x64.tar.gz
-./docker/weblogic-domain/container-scripts/jaxrs2-template.jar
+docker/oracle/Disk1
+docker/weblogic/wls1213_dev_update3.zip
+docker/weblogic/jdk-7u80-linux-x64.tar.gz
+docker/weblogic-domain/container-scripts/jaxrs2-template.jar
