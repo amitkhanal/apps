@@ -1,0 +1,66 @@
+FROM  centos:latest
+
+MAINTAINER Amit Khanal <amit.khanal@objectedge.com>
+
+ENV  JAVA_PKG=jdk-7u80-linux-x64.tar.gz \
+     JAVA_FOLDER=jdk1.7.0_80 \
+     FMW_PKG=wls1213_dev_update3.zip \
+     JAVA_HOME=/usr/java/default \
+     MW_HOME=/u01/oracle \
+     ORACLE_HOME=/u01/oracle \
+     CONFIG_JVM_ARGS="-Djava.security.egd=file:/dev/./urandom" \
+     _JAVA_OPTIONS="-XX:+PrintCommandLineFlags -Djava.security.egd=file:/dev/./urandom" \
+     JAVA_OPTIONS=$_JAVA_OPTIONS \
+     PATH=$PATH:/usr/java/default/bin:/u01/oracle/oracle_common/common/bin
+
+# Setup filesystem and oracle user
+# Install and configure Oracle JDK
+# Adjust file permissions, go to /u01 as user 'oedev' to proceed with WLS installation
+
+# Make sure oedev user has been created as below
+
+#   RUN yum -y install sudo && \
+#	useradd -b /u01 -m -s /bin/bash oedev && \
+#	chown oedev:oedev -R /u01 && \
+#   echo 'oedev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+# ------------------------------------------------------------
+
+RUN yum -y install sudo && \
+	useradd -b /u01 -m -s /bin/bash oedev && \
+	echo 'oedev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+# Copy packages
+# -------------
+COPY $FMW_PKG /u01/
+ADD $JAVA_PKG /usr/java/
+
+
+RUN yum -y install initscripts && \
+    rm -rf /var/lock && \
+    mkdir -p /var/lock
+    
+    
+RUN mkdir -p /u01/oracle && \
+    chmod a+xr /u01 && \    
+    ln -s /usr/java/$JAVA_FOLDER /usr/java/default && \
+    ln -s /usr/java/$JAVA_FOLDER /usr/java/latest && \
+    $JAVA_HOME/bin/jar xf /u01/$FMW_PKG && \
+    mv wls12130/* /u01/oracle && rmdir wls12130 && \
+    cd /u01/oracle && \
+    sh configure.sh -silent && \
+    find /u01/oracle -name "*.sh" -exec chmod a+x {} \; && \
+    rm /u01/$FMW_PKG && \    
+    chown oedev:oedev -R /u01/oracle && \
+    rm -rf /var/cache/yum/*
+    
+USER oedev
+
+WORKDIR /u01/oracle
+
+ENV  JAVA_HOME=/usr/java/default \
+     PATH=$JAVA_HOME:$PATH
+
+
+# Define default command to start bash. 
+CMD ["bash"]

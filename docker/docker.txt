@@ -1,0 +1,289 @@
+   17  sudo tee /etc/yum.repos.d/docker.repo <<-'EOF'
+   18  [dockerrepo]
+   20  baseurl=https://yum.dockerproject.org/repo/main/centos/$releasever/
+   23  gpgkey=https://yum.dockerproject.org/gpg
+   25  yum install docker-engine
+   26  sudo yum install docker-engine
+   27  sudo service docker start
+   28  sudo docker run hello-world
+   29  sudo usermod -aG docker oedev
+   56  docker images
+   57  service docker start
+   58  docker images
+  166  docker pull centos
+  167  service docker start
+  168  docker pull centos
+  169  docker run -t -i centos
+  170  docker search oracle
+  171  docker pull thoeni/centos-oracle-java
+  172  docker run -i -t thoeni/centos-oracle-java:latest
+  173  docker run -i -t --net=host thoeni/centos-oracle-java:latest
+  176  mkdir docker
+  180  mkdir docker
+  192  mkdir docker
+  193  cd docker
+  198  docker images
+  199  docker start -i -t thoeni/centos-oracle-java 
+  200  docker run -i -t thoeni/centos-oracle-java 
+  201  docker run -i -t centos
+  211  docker images
+  213  docker images
+  215  docker ps -a
+  217  docker cp oracle-xe-11.2.0-1.0.x86_64.rpm.zip centos/weblogic-12.1.3:/opt
+  218  docker ps -a
+  219  docker cp oracle-xe-11.2.0-1.0.x86_64.rpm.zip oe-cento-weblogic12.1.3:/opt
+  221  docker stop a855bc6629e0
+  223  docker attach oe-cento-weblogic12.1.3
+  227  docker images
+  253  cd docker/
+  256  docker run -i -t -f atg-dockerfile
+  257  docker build -f atg-dockerfile
+  258  docker build -f atg-dockerfile .
+  259  docker images
+  264  docker build -f atg-dockerfile .
+  265  docker images
+  266  docker run -i -t 1cc28a4b2b95 /bin/bash
+  267  docker build -f atg-dockerfile .
+  268  docker images
+  269  docker run -i -t 82ca4ec0a3a7 /bin/bash
+  270  docker images
+  271  docker rmi 82ca4ec0a3a7
+  272  docker images
+  275  docker build -f atg-dockerfile -t centos/weblogic-12.1.3 .
+  276  docker images
+  277  docker run -i -t centos/weblogic12.1.3
+  278  docker run -i -t centos/weblogic-12.1.3
+  279  docker run -i -t centos/weblogic-12.1.3 -name oe/centos-weblogic-12.1.3
+  280  docker run -i -name oe/centos-weblogic-12.1.3 -t centos/weblogic-12.1.3
+  281  docker run -i -name oe/centos-weblogic-12.1.3  centos/weblogic-12.1.3
+  282  docker run -i -name centos-weblogic-12.1.3  centos/weblogic-12.1.3
+  283  docker run -i -n centos-weblogic-12.1.3  centos/weblogic-12.1.3
+  284  docker images
+  285  docker run -i -t  centos/weblogic-12.1.3
+  286  docker run -i -t  centos/weblogic-12.1.3 -name centos-oe
+  287  docker run -i -t  centos/weblogic-12.1.3 --name oe/centos-weblogic-12.1.3
+  288  docker run -d --name oe/cento-weblogic12.1.3  centos/weblogic-12.1.3
+  289  docker run -d --name oe-cento-weblogic12.1.3  centos/weblogic-12.1.3
+  290  docker ps -a
+  291  docker inspect d9d7e86f2f73
+  292  docker ps -a
+  293  docker daemon
+  294  sudo docker daemon
+  295  docker stop oe-cento-weblogic12.1.3
+  296  docker stop d9d7e86f2f73
+  297  docker ps -a
+  298  service docker start
+  299  docker ps -a
+  300  docker images
+  301  docker ps -a
+  302  service docker start
+  303  docker ps -a
+  304  docker run --name oe-cento-weblogic12.1.3 -P -d centos/weblogic-12.1.3
+  305  docker stop oe-cento-weblogic12.1.3
+  306  docker ps -a
+  307  docker stop oe-cento-weblogic12.1.3
+  308  docker stop d9d7e86f2f73
+  309  docker ps -a
+  310  docker status d9d7e86f2f73
+  311  docker stop 600737b0a5d6
+  312  docker status d9d7e86f2f73
+  313  docker ps -a
+  314  docker attach 600737b0a5d6
+  315  docker attach d9d7e86f2f73
+  316  docker start d9d7e86f2f73
+  317  docker attach d9d7e86f2f73
+  318  docker start d9d7e86f2f73
+  319  docker attach d9d7e86f2f73
+  321  docker rmi d9d7e86f2f73
+  322  docker ps -a
+  323  docker ps -a -q -f status=exited
+  324  docker ps -a
+  325  docker rm -v $(docker ps -a -q -f status=exited)
+  326  docker images
+  327  docker ps -a
+  328  docker run --name oe-cento-weblogic12.1.3 -P -d centos/weblogic-12.1.3
+  329  docker ps -a
+  330  docker attach oe-cento-weblogic12.1.3
+  331  docker start oe-cento-weblogic12.1.3
+  332  docker ps -a
+  333  docker attach 20fec2892dc2
+  334  docker rm -v $(docker ps -a -q -f status=exited)
+  335  docker ps -a
+  336  docker run -i -t --name oe-cento-weblogic12.1.3 centos/weblogic-12.1.3
+  337  docker ps -a
+  338  docker inspect oe-cento-weblogic12.1.3
+  340  service docker stop
+  341  service docker start
+  342  docker images
+  355  docker build -t centos/weblogic12.1.3-oracle-xe-11g -f oracle-xe-dockerfile 
+  356  docker build -t centos/weblogic12.1.3-oracle-xe-11g -f oracle-xe-dockerfile . 
+  358  docker build -t centos/weblogic12.1.3-oracle-xe-11g -f oracle-xe-dockerfile . 
+  360  docker build -t centos/weblogic12.1.3-oracle-xe-11g -f oracle-xe-dockerfile . 
+  361  docker images
+  362  docker ps -a
+  363  docker images
+  364  docker run -d -name centos/weblogic12.1.3-oracle-xe-11g -p 1521:1521 -p 8080:8080 -p 22:22  -p 7001:7001 -v /opt/centos-wl-xe:/u01 -v /opt/wl-opt:/opt
+  365  docker run -d -name weblogic12.1.3-oracle-xe-11g -p 1521:1521 -p 8080:8080 -p 22:22  -p 7001:7001 -v /opt/centos-wl-xe:/u01 -v /opt/wl-opt:/opt centos/weblogic12.1.3-oracle-xe-11g
+  366  docker run -d --name weblogic12.1.3-oracle-xe-11g -p 1521:1521 -p 8080:8080 -p 22:22  -p 7001:7001 -v /opt/centos-wl-xe:/u01 -v /opt/wl-opt:/opt centos/weblogic12.1.3-oracle-xe-11g
+  367  docker run -d --name weblogic12.1.3-oracle-xe-11g -p 1522:1521 -p 8080:8080 -p 22:22  -p 7001:7001 -v /opt/centos-wl-xe:/u01 -v /opt/wl-opt:/opt centos/weblogic12.1.3-oracle-xe-11g
+  368  docker ps -a
+  369  docker rmi 0c0e7600d17c
+  370  docker rm 0c0e7600d17c
+  371  docker ps -a
+  372  docker rm -v $(docker ps -a -q -f status=exited)
+  373  docker ps -a
+  374  docker images
+  375  docker run -d --name weblogic12.1.3-oracle-xe-11g -p 1522:1521 -p 8080:8080 -p 22:22  -p 7001:7001 -v /opt/centos-wl-xe:/u01 -v /opt/wl-opt:/opt centos/weblogic12.1.3-oracle-xe-11g
+  376  docker ps -a
+  377  docker rm weblogic12.1.3-oracle-xe-11g
+  378  docker run -d --name weblogic12.1.3-oracle-xe-11g -p 1522:1521 -p 8080:8080 -p 23:22  -p 7001:7001 -v /opt/centos-wl-xe:/u01 -v /opt/wl-opt:/opt centos/weblogic12.1.3-oracle-xe-11g
+  379  docker ps -a
+  380  docker rm weblogic12.1.3-oracle-xe-11g
+  381  docker images
+  382  docker run -i -t centos/weblogic-12.1.3
+  383  docker ps -a
+  384  docker run -d --name weblogic12.1.3-oracle-xe-11g -p 1522:1521 -p 8080:8080 -p 23:22  -p 7001:7001 -v /opt/centos-wl-xe:/u01  centos/weblogic12.1.3-oracle-xe-11g
+  385  docker ps -a
+  386  docker rm 63b7bb84e739
+  387  docker run -d --name weblogic12.1.3-oracle-xe-11g -p 1522:1521 -p 8080:8080 -p 23:22  -p 7001:7001  -v /opt/wl-opt:/opt centos/weblogic12.1.3-oracle-xe-11g
+  389  docker ps -a
+  390  docker attach 1c73d882413c
+  391  docker ps -a
+  392  docker stop weblogic12.1.3-oracle-xe-11g
+  393  docker run -i -t --name weblogic12.1.3-oracle-xe-11g -p 1522:1521 -p 8080:8080 -p 23:22  -p 7001:7001  -v /opt/wl-opt:/opt centos/weblogic12.1.3-oracle-xe-11g
+  394  docker ps -a
+  395  docker rm weblogic12.1.3-oracle-xe-11g
+  396  docker run -i -t --name weblogic12.1.3-oracle-xe-11g -p 1522:1521 -p 8080:8080 -p 23:22  -p 7001:7001  -v /opt/wl-opt:/opt centos/weblogic12.1.3-oracle-xe-11g
+  397  docker images
+  398  docker ps -a
+  399  docker rmi $(docker ps -a -q -f status=exited)
+  400  docker ps -a
+  401  docker rmi 478b171ead67
+  402  docker rm $(docker ps -a -q -f status=exited)
+  403  docker ps -a
+  404  docker build -t centos/weblogic12.1.3-oracle-xe-11g -f oracle-xe-dockerfile . 
+  405  docker ps -a
+  406  docker run -i -t 600737b0a5d6
+  407  docker start 600737b0a5d6
+  408  docker images
+  409  docker run -i -t centos/weblogic-12.1.3
+  421  docker inspect centos/weblogic12.1.3-oracle-xe-11g
+  422  docker ps -a
+  423  docker stop weblogic12.1.3-oracle-xe-11g
+  424  docker start weblogic12.1.3-oracle-xe-11g
+  425  docker ps -a
+  426  docker attach weblogic12.1.3-oracle-xe-11g
+  427  docker stop weblogic12.1.3-oracle-xe-11g
+  433  docker stop 22bf735f409b
+  448  cd /opt/docker/
+  453  docker run -i -t centos:latest
+  454  docker ps -a
+  455  docker rm b6d1dc54d265
+  456  docker ps -a
+  457  docker rm 612c08983c8d
+  458  docker ps -a
+  459  docker images
+  460  docker images | grep "^<none>" | awk "{print $3}"
+  461  docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
+  462  docker rmi 1cc28a4b2b95
+  463  docker rmi $(docker images | grep "^<none>" | awk '{print $3}')
+  464  docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
+  465  docker images
+  466  docker rmi 82ca4ec0a3a7
+  467  docker ps -a
+  468  docker rm 23615b94dab4
+  469  docker stop 23615b94dab4
+  470  docker ps -a
+  471  docker rm 23615b94dab4
+  472  docker ps -a
+  474  docker cp oracle-xe-11.2.0-1.0.x86_64.rpm.zip centos/weblogic-12.1.3:/opt
+  475  docker -version
+  476  docker info
+  477  docker ps -a
+  478  docker cp oracle-xe-11.2.0-1.0.x86_64.rpm.zip modest_roentgen:/opt
+  479  docker stop modest_roentgen
+  480  docker ps -a
+  481  service docker stop
+  482  docker ps -a
+  483  docker inspect oe-cento-weblogic12.1.3 |grep IPAddress
+  486  docker ps -a
+  487  docker attach a855bc6629e0
+  488  docker start a855bc6629e0
+  489  docker ps -a
+  490  docker attach a855bc6629e0
+  491  docker start a855bc6629e0
+  492  docker attach a855bc6629e0
+  493  docker ps -a
+  494  docker start oe-cento-weblogic12.1.3
+  495  docker ps -a
+  496  docker attach oe-cento-weblogic12.1.3
+  498  docker ps -a
+  499  docker start oe-cento-weblogic12.1.3
+  500  docker attach oe-cento-weblogic12.1.3
+  501  docker ps -a
+  503  hisotory |grep docker 
+  504  history |grep docker
+  592  cd /opt/docker/
+  601  docker stop oe-centos7-wl-12.1.3-xe-11
+  604  docker rmi oe/centos7-wl-12.1.3-xe-11
+  649  docker rmi oe/centos7-wl-12.1.3-xe-11g
+  659  cat docker/config/start.sh 
+  679  docker cp V78217-01-OC-Platform.zip oe/centos-wl-xe:/opt
+  689  docker rm 5ebf411157cd 438fe2bc237d
+  712  cd /opt/docker/
+  716  docker ps -a
+  717  nsenter -m -u -i -n -p -t `docker inspect --format {{.State.Pid}}  oe-centos-wl-xe`
+  718  sudo nsenter -m -u -i -n -p -t `docker inspect --format {{.State.Pid}}  oe-centos-wl-xe`
+  747  cd docker/
+  750  vi wl-domain-dockerfile
+  763  git clone git@github.com:oracle/docker-images.git
+  765  cd docker-images/
+  774  cd /opt/docker/
+  777  cp -r /opt/workspace/Projects/docker-images/OracleWebLogic/samples/1213-domain .
+  788  mv Dockerfile centos-wl-domain-dockerfile
+  793  docker build -t centos-wl-domain-dockerfile -f wl-domain-dockerfile .
+  794  vi centos-wl-domain-dockerfile 
+  795  docker build -t centos-wl-domain-dockerfile -f wl-domain-dockerfile .
+  797  vi centos-wl-domain-dockerfile 
+  799  vi wl-domain-dockerfile 
+  800  diff centos-wl-domain-dockerfile wl-domain-dockerfile 
+  802  vi centos-wl-domain-dockerfile 
+  803  vi wl-domain-dockerfile 
+  804  vi centos-wl-domain-dockerfile 
+  805  rm wl-domain-dockerfile 
+  806  docker build -t centos-wl-domain-dockerfile -f centos-wl-domain-dockerfile .
+  807  docker ps -a
+  810  boot2docker ip
+  811  docker ip
+  812  docker ps -a
+  813  docker ps
+  814  docker inspect a9f7938a4edd | grep IP
+  815  docker-machine ls
+  816  docker ip 172.17.0.2
+  817  man docker
+  818  docker top 172.17.0.2
+  819  docker top centos-wl-domain
+  821  docker top 00c4e0009b80
+  822  man docker
+  823  docker exec kill 12605
+  824  docker exec -d 00c4e0009b80 kill 12605
+  825  docker stop 00c4e0009b80
+  841  sudo nsenter -m -u -i -n -p -t `docker inspect --format {{.State.Pid}}  centos7-wl-12.1.3-domain`
+  899  docker rmi thoeni/centos-oracle-java
+  909  gedit centos7-wl-12.1.3-domain-dockerfile
+  913  sudo nsenter -m -u -i -n -p -t `docker inspect --format {{.State.Pid}}  centos7-wl-12.1.3-domain`
+  924  docker inspect --format {{.State.Pid}}  centos7-wl-12.1.3-domain
+  972  sudo docker service start
+  973  sudo service docker start
+  976  docker start centos7-wl-12.1.3-domain
+  978  docker attach centos7-wl-12.1.3-domain
+  981  sudo service docker start
+  984  docker start centos7-wl-12.1.3-domain
+  986  docker attach centos7-wl-12.1.3-domain
+  988  history | grep docker
+  990  sudo nsenter -m -u -i -n -p -t `docker inspect --format {{.State.Pid}}  centos7-wl-12.1.3-domain`
+  993  service docker start
+  998  service docker start
+ 1002  cd /opt/docker/
+ 1006  history |grep docker
+ 1007  history |grep docker > docker.txt
