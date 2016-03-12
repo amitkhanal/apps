@@ -2,6 +2,8 @@ FROM  centos:latest
 
 MAINTAINER Amit Khanal <amit.khanal@objectedge.com>
 
+USER root
+
 ENV  JAVA_PKG=jdk-7u80-linux-x64.tar.gz \
      JAVA_FOLDER=jdk1.7.0_80 \
      FMW_PKG=wls1213_dev_update3.zip \
@@ -26,41 +28,89 @@ ENV  JAVA_PKG=jdk-7u80-linux-x64.tar.gz \
 
 # ------------------------------------------------------------
 
+RUN mkdir -p /u01/oracle && \
+    chmod a+xr /u01
+    
 RUN yum -y install sudo && \
 	useradd -b /u01 -m -s /bin/bash oedev && \
-	echo 'oedev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-# Copy packages
-# -------------
-COPY $FMW_PKG /u01/
-ADD $JAVA_PKG /usr/java/
-
-
+	echo 'oedev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
+	
 RUN yum -y install initscripts && \
     rm -rf /var/lock && \
     mkdir -p /var/lock
+
+# Copy packages
+# -------------
+ADD $JAVA_PKG /usr/java/
+COPY $FMW_PKG /u01/
+
     
+RUN ln -s /usr/java/$JAVA_FOLDER /usr/java/default && \
+    ln -s /usr/java/$JAVA_FOLDER /usr/java/latest
+
     
-RUN mkdir -p /u01/oracle && \
-    chmod a+xr /u01 && \    
-    ln -s /usr/java/$JAVA_FOLDER /usr/java/default && \
-    ln -s /usr/java/$JAVA_FOLDER /usr/java/latest && \
-    $JAVA_HOME/bin/jar xf /u01/$FMW_PKG && \
-    mv wls12130/* /u01/oracle && rmdir wls12130 && \
+RUN $JAVA_HOME/bin/jar xf /u01/$FMW_PKG
+
+
+RUN mv wls12130/* /u01/oracle && rmdir wls12130 && \
     cd /u01/oracle && \
     sh configure.sh -silent && \
     find /u01/oracle -name "*.sh" -exec chmod a+x {} \; && \
-    rm /u01/$FMW_PKG && \    
-    chown oedev:oedev -R /u01/oracle && \
+    rm /u01/$FMW_PKG && \
     rm -rf /var/cache/yum/*
-    
-USER oedev
 
-WORKDIR /u01/oracle
+#WORKDIR /u01/oracle
 
 ENV  JAVA_HOME=/usr/java/default \
      PATH=$JAVA_HOME:$PATH
 
+################################################################################################
+
+# WLS Configuration
+# -------------------------------
+ENV ADMIN_USERNAME=weblogic \
+	ADMIN_PASSWORD=welcome1 \
+    ADMIN_PORT=8001 \
+    ADMIN_HOST=localhost \
+    NM_NAME=Nodemanager \
+    NM_HOST=localhost \
+    NM_PORT=5556 \
+    MS_NAME=store\
+    MS_HOST=localhost \
+    MS_PORT=7001 \    
+    CLUSTER_NAME=crs_cluster \
+    PATH=$PATH:/u01/oracle/wlserver/common/bin:/u01/oracle/user_projects/domains/base_domain/bin:/u01/oracle
+
+# Add files required to build this image
+#USER oedev
+COPY container-scripts/* /u01/oracle/
+
+# Configuration of WLS Domain
+WORKDIR /u01/oracle
+RUN /u01/oracle/wlserver/common/bin/wlst.sh -skipWLSModuleScanning /u01/oracle/create-wls-domain.py && \
+    mkdir -p /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security && \
+    cp /u01/oracle/commEnv.sh /u01/oracle/wlserver/common/bin/commEnv.sh && \
+    chmod a+x /u01/oracle/wlserver/common/bin/commEnv.sh && \
+    chmod a+x /u01/oracle/startwl.sh && \
+    echo "username=weblogic" > /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security/boot.properties && \ 
+    echo "password=$ADMIN_PASSWORD" >> /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security/boot.properties && \
+    echo ". /u01/oracle/user_projects/domains/base_domain/bin/setDomainEnv.sh" >> /u01/oracle/.bashrc && \ 
+    echo "export PATH=$PATH:/u01/oracle/wlserver/common/bin:/u01/oracle/user_projects/domains/base_domain/bin" >> /u01/oracle/.bashrc && \
+    rm /u01/oracle/create-wls-domain.py /u01/oracle/jaxrs2-template.jar 
+
+#RUN sh /u01/oracle/createServer.sh
+
+# Expose Node Manager default port, and also default http/https ports for admin console
+EXPOSE $ADMIN_PORT $NM_PORT $ADMIN_PORT $MS_PORT
+
+#WORKDIR /u01/oracle
+RUN chown oedev:oedev -R /usr && \
+    chown oedev:oedev -R /u01
+
+USER oedev
+
+################################################################################################
 
 # Define default command to start bash. 
-CMD ["bash"]
+#CMD ["bash"]
+CMD ["sh", "-c", "/u01/oracle/startwl.sh"]

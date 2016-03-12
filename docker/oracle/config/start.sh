@@ -5,17 +5,17 @@ sed -i -E "s/HOST = [^)]+/HOST = $HOSTNAME/g" $ORACLE_HOME/network/admin/listene
 sed -i -E "s/HOST = [^)]+/HOST = $HOSTNAME/g" $ORACLE_HOME/network/admin/tnsnames.ora
 
 
-/etc/init.d/oracle-xe start
+#/etc/init.d/oracle-xe start
 
-sqlplus sys/oracle as sysdba @/opt/create-user.sql
+#sqlplus sys/oracle as sysdba @/opt/create-user.sql
 
-#while true; do
-#    pmon=`ps -ef | grep pmon_$ORACLE_SID | grep -v grep`
-#
-#    if [ "$pmon" == "" ]
-#    then
-#        date
-#        /etc/init.d/oracle-xe start
-#    fi
-#    sleep 1m
-#done;
+while true; do
+    pmon=`ps -ef | grep pmon_$ORACLE_SID | grep -v grep`
+
+    if [ "$pmon" == "" ]
+    then
+        date
+        /etc/init.d/oracle-xe start
+    fi
+    sleep 1m
+done;
